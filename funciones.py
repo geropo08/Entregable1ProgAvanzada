@@ -121,7 +121,22 @@ def bind(func:Callable, tuple: Tuple[Tuple[List[List[str]], List[str]], int]) ->
 def unit(preguntas: Tuple[List[List[str]], List[str]]) -> Tuple[Tuple[List[List[str]], List[str]], int]:
     return preguntas,0
 
+def verificador(opciones_map:dict[str, str], ingreso:str, respuesta:str)->bool:
+    """
+    Funcion que verifica si una respuesta dada por el jugador es correcta
+    Args:
+        opciones_map (dict[str, str]): Recibe un diccionario con lo que dice la opcion y a que letra corresponde
+        ingreso (str): Letra que ingreso el jugador
+        respuesta (str): Respuesta correcta de la pregunta
+    Returns:
+        bool
 
+    """
+    #Verifica lo que ingreso y lo compara con la respuesta real
+    if ingreso in opciones_map and opciones_map[ingreso] == respuesta:
+        return True
+    else:
+        return False
 
 
 @decorador
@@ -145,7 +160,7 @@ def juego(preguntas:Tuple[List[List[str]], List[str]], pts:int) -> Tuple[Tuple[L
     opciones=[preguntas[0][numero_pregunta][1],preguntas[1][0],preguntas[1][1]]
     random.shuffle(opciones) #Las cambia de orden
     print(preguntas[0][numero_pregunta][0]+"\n"+"Opciones: a-"+opciones[0]+" b-"+opciones[1]+" c-"+opciones[2]) #Imprime las opciones
-    respuesta=input("Ingese una opcion: ") #Pide que ingrese una opcion
+    ingreso=input("Ingese una opcion: ") #Pide que ingrese una opcion
     # Crea mapa de respuesta (a,b,c) y les asigna las opciones
     opciones_map = {
         "a": opciones[0],
@@ -153,7 +168,7 @@ def juego(preguntas:Tuple[List[List[str]], List[str]], pts:int) -> Tuple[Tuple[L
         "c": opciones[2]
     }
     #consulta si ingreso a, b o c y verifica que la opcion sea correcta comparandola con la original
-    if respuesta in opciones_map and opciones_map[respuesta] == preguntas[0][numero_pregunta][1]:
+    if verificador(opciones_map, ingreso, preguntas[0][numero_pregunta][1]):
         #suma 10 pts
         pts += 10
         print("Respuesta Correcta!")
