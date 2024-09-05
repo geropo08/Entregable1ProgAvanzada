@@ -9,7 +9,7 @@ def decorador(func: Callable) -> Callable:
         numero_preg=6-int(len(args[0][1])/2) #Como se quitan opciones a medida que el juego avanza, dependiendo de cuantas opciones haya es el numero de pregunta
         print(f"Pregunta: {numero_preg}")
         res= func(*args, **kwargs)
-        if(res[1]==5):
+        if(numero_preg==5):
             print(f"El juego ha terminado, usted consiguio {res[1]} puntos")
         else:
             print(f"Tenes {res[1]} puntos\n")
@@ -165,8 +165,17 @@ def juego(preguntas:Tuple[List[List[str]], List[str]], pts:int) -> Tuple[Tuple[L
     #Aumenta el contador
     return (preguntas[0],nuevas_respuestas), pts
 
+#Funcion que inicia el juego
+def iniciar(datos:List[List[str]]):
+    """
+    Funcion que inicia el juego
 
-    
+    Args:
+        preguntas [List[List[str]]: Datos recibidos del csv
+
+    """
+    preguntas = preguntas_random(datos)
+    return bind(juego,bind(juego,bind(juego,bind(juego,bind(juego,unit(preguntas))))))
     
 
     
